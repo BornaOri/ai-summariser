@@ -12,7 +12,7 @@ word_limit = 5000
 def calculate_length(file):
     if file == ".csv":
         #later can change to make the function that would repeat the first 2 lines of this function 
-        df = pd.read_csv(r"C:\Users\Borna\OneDrive\Desktop\MOCK_DATA.csv")
+        df = pd.read_csv("MOCK_DATA.csv")
         converted_strings = df.to_string(index=False)
         document_length = len(converted_strings.split())
         if document_length > word_limit:
@@ -20,7 +20,7 @@ def calculate_length(file):
         return print("CSV file checked successfully")
     print("wong") 
     if file == ".txt":
-        with open(r"C:\Users\Borna\OneDrive\Desktop\MOCK_DATA.txt", "r", encoding = "utf-8") as file:
+        with open("MOCK_DATA.txt", "r", encoding = "utf-8") as file:
             content = file.read()
             document_length = len(content.split())
             if document_length > word_limit:
