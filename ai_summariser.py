@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from flask import Flask
+from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
@@ -27,9 +27,11 @@ def calculate_length(file):
                 raise ValueError(f"document exceeds {word_limit} words! Please shorten it.")
         return print("TXT file checked successfully")
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+#file_path = "MOCK_DATA.txt"
+#file_extension = os.path.splitext(file_path)[1].lower()
+#print(file_extension)
+#calculate_length(file_extension)
 
-
-file_path = "MOCK_DATA.txt"
-file_extension = os.path.splitext(file_path)[1].lower()
-print(file_extension)
-calculate_length(file_extension)
