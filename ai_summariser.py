@@ -38,6 +38,8 @@ def upload_file():
         flash(limit_status)
         return redirect(url_for('home'))
 
+    flash("File uploaded and processed")
+    return redirect(url_for('home'))
 @app.route('/')
 def home():
     return render_template('index.html')
