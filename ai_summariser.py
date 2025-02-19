@@ -21,9 +21,11 @@ def upload_file():
         flash("Please upload a document, that is CSV or TXT.")
         return redirect(url_for('home'))    
     file = request.files['file']
-    
-    file_ext = os.path.splitext(file.filename)[1].lower()
-
+    try:
+        file_ext = os.path.splitext(file.filename)[1].lower()
+    except Exception as e:
+        flash(f"Error processing file name: {e}")
+        return redirect(url_for('home'))
     if file_ext == ".csv":
         df = pd.read_csv(file)
         file_content = df.to_string(index = False)
