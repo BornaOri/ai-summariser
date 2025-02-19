@@ -3,37 +3,41 @@ import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
 
 app = Flask(__name__)
-
+app.secret_key = os.urandom(24)
 word_limit = 5000
 
 def calculate_length(content):
     words_num = content.split()
     if len(words_num) > word_limit:
         return "Please insert a file of 5000 words or less"
+    
     return "Document fits size"
 
 #def summarise_file(content):
-   
+  
 
 @app.route('/upload', methods=["POST"])
 def upload_file():
-    if "file" not in request.files:
+    if "file" not in request.files or request.files['file'].filename == '':
         flash("Please upload a document, that is CSV or TXT.")
         return redirect(url_for('home'))    
     file = request.files['file']
-    try:
-        file_ext = os.path.splitext(file.filename)[1].lower()
-    except Exception as e:
-        flash(f"Error processing file name: {e}")
-        return redirect(url_for('home'))
+    file_ext = os.path.splitext(file.filename)[1].lower()
     if file_ext == ".csv":
         df = pd.read_csv(file)
         file_content = df.to_string(index = False)
+        
     elif file_ext == ".txt":
         file_content = file.read().decode('utf-8')
+        
     else:
         flash("Unsupported filetype, upload a .txt or .csv file.")
         return redirect(url_for('home'))
+    limit_status = calculate_length(file_content)
+    if limit_status != "Document fits size":
+        flash(limit_status)
+        return redirect(url_for('home'))
+
 @app.route('/')
 def home():
     return render_template('index.html')
