@@ -61,7 +61,7 @@ def AI_summary():
                 {"role": "user", "content": contents}
         ]
     )
-    summary = completion['choices'][0]['message']['content']
+    summary = completion.choices[0].message.content
     return render_template('summary.html', summary = summary)
     #send to AI and recieve the feedback 
 
