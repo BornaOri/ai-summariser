@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
+from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
 from openai import OpenAI
 from dotenv import load_dotenv
 client = OpenAI(
@@ -45,8 +45,9 @@ def upload_file():
         return redirect(url_for('home'))
 
     flash("File uploaded and processed")
-    contents = file_content
+    
     flash(contents)
+    session['contents'] = file_content
     return redirect(url_for('AI_summary'))
 
 @app.route('/summary_page')
