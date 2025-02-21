@@ -52,7 +52,7 @@ def upload_file():
 
 @app.route('/summary_page')
 def AI_summary():
-    
+    contents = session.get('contents', '')
     completion = client.chat.completions.create(
         model="gpt-4o-mini-2024-07-18",
         store = True,
