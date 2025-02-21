@@ -1,10 +1,16 @@
 import pandas as pd
 import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
+from openai import OpenAI
+client = OpenAI(
+  api_key=
+  ""
+)
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 word_limit = 5000
+contents = ""
 
 def calculate_length(content):
     words_num = content.split()
@@ -39,10 +45,18 @@ def upload_file():
         return redirect(url_for('home'))
 
     flash("File uploaded and processed")
+    contents = file_content
+    flash(contents)
     return redirect(url_for('home'))
+
+@app.route('/summary_page')
+def AI_summary():
+    return redirect(url_for('home'))
+    #send to AI and recieve the feedback 
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
