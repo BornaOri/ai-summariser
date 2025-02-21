@@ -3,3 +3,4 @@ gunicorn
 requests
 pandas
 python-dotenv
+openai
